@@ -12,7 +12,6 @@ before_script:
   - export CI=false
 script:
   - react-scripts build
-  - cp ${TRAVIS_BUILD_DIR}/CNAME ${TRAVIS_BUILD_DIR}/build/
 deploy:
   provider: pages
   local_dir: build
