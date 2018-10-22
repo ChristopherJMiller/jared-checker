@@ -1,6 +1,6 @@
 {
-  "name": "jared-grader",
-  "homepage": "http://chrismiller.xyz/jared-grader",
+  "name": "jared-checker",
+  "homepage": "http://chrismiller.xyz/jared-checker",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
