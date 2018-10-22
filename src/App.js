@@ -11,6 +11,9 @@ class App extends Component {
           How well did they spell "Jared"?
         </Typography>
         <JaredChecker />
+        <Typography component="a" variant="overline" href="http://chrismiller.xyz" gutterBottom>
+          chrismiller.xyz
+        </Typography>
       </div>
     );
   }
