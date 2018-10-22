@@ -1,25 +1,16 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Typography from '@material-ui/core/Typography';
+import JaredChecker from './JaredChecker';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Typography component="h4" variant="h3" gutterBottom>
+          How well did they spell "Jared"?
+        </Typography>
+        <JaredChecker />
       </div>
     );
   }
