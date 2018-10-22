@@ -2,8 +2,9 @@ import React, { Component } from "react"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
 import { withStyles } from "@material-ui/core/styles"
-import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography'
 import Levenshtein from "levenshtein"
+import caverphone from "caverphone-phonetics"
 
 const styles = theme => ({
   div: {
@@ -22,15 +23,19 @@ class JaredChecker extends Component {
       compareName: "Jared",
       attemptedName: "",
       score: 0,
-      scorePosted: false
+      scorePosted: false,
+      phoneticMatch: false
     }
   }
 
   checkSpelling = () => {
     let l = new Levenshtein(this.state.compareName.toLowerCase(), this.state.attemptedName.toLowerCase())
+    console.log(caverphone(this.state.attemptedName.toLowerCase()))
+    let phoneticBonus = caverphone(this.state.attemptedName.toLowerCase()) === caverphone(this.state.compareName.toLowerCase())
     this.setState({
-      score: 100 - (l.distance * 20),
-      scorePosted: true
+      score: (80 - (l.distance * 20)) + (phoneticBonus ? 20 : 0),
+      scorePosted: true,
+      phoneticMatch: phoneticBonus
     })
   }
 
@@ -56,7 +61,7 @@ class JaredChecker extends Component {
       case 0:
         return "F"
       default:
-        return "FF"
+        return "F".repeat(Math.abs(tierStep))
     }
   }
 
