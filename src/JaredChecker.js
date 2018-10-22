@@ -66,10 +66,10 @@ class JaredChecker extends Component {
     if (this.state.scorePosted) {
       results = (
         <div>
-          <Typography component="h4" variant="h4" gutterTop>
+          <Typography component="h4" variant="h4">
             This would be rated a {this.state.score} out of 100.
           </Typography>
-          <Typography component="h4" variant="h6" gutterTop>
+          <Typography component="h4" variant="h6">
             aka a {this.getGrade()} tier spelling.
           </Typography>
         </div>
