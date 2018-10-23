@@ -8,7 +8,6 @@
     "@material-ui/icons": "^3.0.1",
     "caverphone-phonetics": "^1.0.0",
     "levenshtein": "^1.0.5",
-    "natural": "^0.6.1",
     "nysiis-phonetics": "^1.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
