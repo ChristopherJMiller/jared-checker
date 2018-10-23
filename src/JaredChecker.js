@@ -5,6 +5,8 @@ import { withStyles } from "@material-ui/core/styles"
 import Typography from '@material-ui/core/Typography'
 import Levenshtein from "levenshtein"
 import caverphone from "caverphone-phonetics"
+import CheckLog from "./CheckLog";
+import Chip from '@material-ui/core/Chip';
 
 const styles = theme => ({
   div: {
@@ -12,7 +14,8 @@ const styles = theme => ({
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    textAlign: "center"
+    textAlign: "center",
+    width: "100vw"
   }
 })
 
@@ -24,18 +27,28 @@ class JaredChecker extends Component {
       attemptedName: "",
       score: 0,
       scorePosted: false,
-      phoneticMatch: false
+      phoneticMatch: false,
+      checkHistory: []
     }
   }
 
   checkSpelling = () => {
     let l = new Levenshtein(this.state.compareName.toLowerCase(), this.state.attemptedName.toLowerCase())
-    console.log(caverphone(this.state.attemptedName.toLowerCase()))
     let phoneticBonus = caverphone(this.state.attemptedName.toLowerCase()) === caverphone(this.state.compareName.toLowerCase())
+    let score = (80 - (l.distance * 20)) + (phoneticBonus ? 20 : 0)
+
+    let check = {
+      name: this.state.attemptedName.toUpperCase(),
+      score: score,
+      tier: this.getGrade(score),
+      phoneticBonus: phoneticBonus
+    }
+
     this.setState({
-      score: (80 - (l.distance * 20)) + (phoneticBonus ? 20 : 0),
+      score: score,
       scorePosted: true,
-      phoneticMatch: phoneticBonus
+      phoneticMatch: phoneticBonus,
+      checkHistory: this.state.checkHistory.concat([check])
     })
   }
 
@@ -45,8 +58,8 @@ class JaredChecker extends Component {
     })
   }
 
-  getGrade = () => {
-    let tierStep = Math.round(this.state.score / 20)
+  getGrade = (score = this.state.score) => {
+    let tierStep = Math.round(score / 20)
     switch(tierStep) {
       case 5:
         return "S"
@@ -61,7 +74,11 @@ class JaredChecker extends Component {
       case 0:
         return "F"
       default:
-        return "F".repeat(Math.abs(tierStep))
+        if (Math.abs(tierStep) > 8) {
+          return  (<span dangerouslySetInnerHTML={{__html: "F.FFx10" + Math.abs(tierStep).toString().sup() }} />)
+        } else {
+          return "F".repeat(Math.abs(tierStep))
+        }
     }
   }
 
@@ -93,6 +110,8 @@ class JaredChecker extends Component {
           Grade Spelling
         </Button>
         { results }
+        { this.state.phoneticMatch ? <Chip label="Phonetic Match!" className={classes.chip} /> : null }
+        <CheckLog checks={this.state.checkHistory} />
       </div>
     );
   }
